@@ -1,0 +1,248 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap');
+body 
+{
+    font-family: 'Quicksand',sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(21, 21, 103) !important;
+    height: 100vh;
+    color: #fff !important;
+}
+
+
+/* Header */
+header 
+{
+    background-color: lightblue;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between !important; /* Space between left, center, and right */
+    align-items: center;
+}
+
+header .title {
+    flex-grow: 1;
+    text-align: center;
+    font-size: 2.5em;
+}
+
+header .button-left,
+header .profile-right {
+    font-size: 1em !important;
+}
+
+header .button-left {
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+
+header .profile-right {
+    cursor: pointer;
+    font-size: 1.2em;
+}
+.dropdown {
+    position: absolute;
+    top: 30px !important;
+    left: 20px !important;
+}
+
+.dropbtn {
+    background-color:rgb(71, 71, 179);
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 150px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.show {
+    display: block;
+}
+
+/* Navigation Bar */
+nav 
+{
+    display: flex;
+    justify-content: center;
+    background-color: rgb(71, 71, 179);
+    padding: 10px 0;
+}
+
+nav a 
+{
+    color: lightblue;
+    text-decoration: none;
+    margin: 0 20px;
+    font-size: 1.1em;
+}
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex; /* Ensures items stay in a row */
+}
+
+nav li {
+    margin-right: 15px; /* Adjust spacing between items */
+}
+
+nav a:hover 
+{
+    color: grey ;
+}
+
+.profile-pic 
+{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.form-container 
+{
+    display: none;
+    position: absolute;
+    top: 50px;
+    right: 10px;
+    background: white;
+    padding: 15px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    width: 220px;
+}
+.form-container input 
+{
+    display: block;
+    margin: 10px 0;
+    padding: 8px;
+    width: 90%;
+}
+.form-container button 
+{
+    background: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.form 
+{
+    text-align: center;
+    margin-top: 10px;
+    cursor: pointer;
+    color: #007BFF;
+}
+/* Main Content Area */
+.main-content 
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+}
+
+
+.controls 
+{
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.controls button 
+{
+    background-color: lightblue;
+    border: none;
+    padding: 10px 20px;
+    color: white;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.5em;
+}
+
+.controls button:hover 
+{
+    background-color: lightblue;
+}
+
+.search-container {
+    position: absolute;
+    top: 40px !important;
+    right: 70px !important;
+}
+.search-box {
+    position: relative;
+    display: none;
+}
+
+input {
+    padding: 8px;
+    width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: lightsteelblue;
+    border: 1px solid #ccc;
+    border-top: none;
+    display: none;
+}
+.suggestions div {
+    padding: 8px;
+    cursor: pointer;
+}
+.suggestions div:hover {
+    background: #f0f0f0;
+}
+.search-icon {
+    cursor: pointer;
+    font-size: 20px;
+    padding: 20px;
+}
+
+.footer 
+{
+    background-color: rgb(71, 71, 179);
+    padding: 15px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.footer p 
+{
+    margin: 0;
+    color: lightblue;
+}
