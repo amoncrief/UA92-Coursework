@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Note Nook</title>
+    <link id="displayStylesheet" rel="stylesheet" href="CSS/styleDay.css">
+
+    <style>
+
+        .carousel-container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+            position: relative;
+        }
+        .carousel {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        .carousel-album {
+            min-width: 200px;
+            height: 200px;
+            margin: 10px;
+            background: lightgray;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            font-size: 14px;
+            position: relative;
+        }
+        .carousel-album img 
+        {
+            width: 100%;  /* Makes the image take up the full width of the album */
+            height: 100%; /* Ensures the image fills the album container */
+            object-fit: cover; /* Crops the image to fit the container while maintaining aspect ratio */
+            border-radius: 10px; /* Matches the album container's rounded corners */
+            transition: transform 0.3s ease-in-out;
+        }
+        .carousel-album:hover img
+        {
+            transform: scale(1.1); /* Increases the size */
+        }
+        .overlay 
+        {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+            opacity: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .carousel-album:hover .overlay 
+        {
+            opacity: 1; /* Show overlay on hover */
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .button {
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+            background: rgb(71, 71, 179);
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+
+        /* Container for the album row */
+        .album-row {
+            display: flex;
+            justify-content: space-around; /* Distributes albums evenly */
+            flex-wrap: wrap; /* Allows albums to wrap if the screen is too small */
+            margin: 20px;
+        }
+
+        /* Individual album styling */
+        .album {
+            background-color: black;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            width: 150px;
+            margin: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        /* Album image */
+        .album img {
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        /* Album title */
+        .album h3 {
+            margin-top: 10px;
+            font-size: 1.1em;
+            color: #fff;
+        }
+
+        /* Hover effect for album */
+        .album:hover {
+            transform: scale(1.05);
+        }
+    </style>
+
+</head>
+<body>
+    <script src="JS/form.js"></script>
+    <script src="JS/DisplayMode.js"></script>
+    <script src="JS/dropDownMenu.js"></script>
+    <script src="JS/search.js"></script>
+
+    <!-- Header -->
+    <header>
+        <div class="dropdown">
+            <button class="dropbtn">☰</button>
+            <div class="dropdown-content">
+                <a href="#">About Us</a>
+                <a href="#">Services</a>
+                <a href="#">Contact</a>
+                <a href="#">Display</a>
+            </div>
+        </div>
+        <div class="title"><img src="images/TitleImage2.png" alt="Title" width="300"></div>
+        <div class="search-container">
+            <span class="search-icon" onclick="toggleSearch()">🔍</span>
+            <div class="search-box" id="searchBox">
+                <input type="text" id="search" placeholder="Search..." onkeyup="showSuggestions()">
+                <div class="suggestions" id="suggestionBox">
+                    <div onclick="selectSuggestion('Communities')">Communities</div>
+                    <div onclick="selectSuggestion('Top 10')">Top 10</div>
+                </div>
+            </div>
+        </div>
+        <img src="images/nulProfile.webp" alt="Profile" class="profile-pic" onclick="Form()">
+    </header>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="Discover.html">Discover</a></li>
+            <li><a href="Create.html">Create</a></li>
+            <li><a href="Share.html">Share</a></li>
+        </ul>
+    </nav>
+        
+    <div class="form-container" id="formContainer">
+        <div id="loginForm">
+            <h3>Login</h3>
+            <input type="text" placeholder="Username">
+            <input type="password" placeholder="Password">
+            <button onclick="login()">Login</button>
+            <div class="form" onclick="Signup()">Don't have an account? Sign Up</div>
+        </div>
+        
+        <div id="signupForm" style="display: none;">
+            <h3>Sign Up</h3>
+            <input type="text" placeholder="Username">
+            <input type="email" placeholder="Email">
+            <input type="password" placeholder="Password">
+            <button onclick="signup()">Sign Up</button>
+            <div class="form" onclick="Signup()">Already have an account? Login</div>
+        </div>
+    </div>
+
+    <h1>Trending Albums</h1>
+    <div class="carousel-container">
+        <div class="carousel" id="Albumcarousel">
+            <div class="carousel-album">
+                <img src="images/ArcticMonkeys-AM.jpg" alt="Album 1">
+                <div class="overlay">Arctic Monkeys</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/BensonBoone-F&R.jpg" alt="Album 2">
+                <div class="overlay">Benson Boone</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/BillieEilish-HMHAS.jpg" alt="Album 3">
+                <div class="overlay">Billie Eilish</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/CentralCee-CRG.jpg" alt="Album 4">
+                <div class="overlay">Central Cee</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/ChappellRoan-TRAFOAMP.jpg" alt="Album 5">
+                <div class="overlay">Chappell Roan</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/CharliXCX-brat.jpg" alt="Album 6">
+                <div class="overlay">Charli XCX</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/EltonJohn-Diamonds.jpg" alt="Album 7">
+                <div class="overlay">Elton John</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/GracieAbrams-TSOU.jpg" alt="Album 8">
+                <div class="overlay">Gracie Abrams</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/Inhaler-OpenWide.jpg" alt="Album 9">
+                <div class="overlay">Inhaler</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/KendrickLamar-GNX.jpg" alt="Album 10">
+                <div class="overlay">Kendrick Lamar</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/MJ-Essential.jpg" alt="Album 11">
+                <div class="overlay">Michael Jackson</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/NoahKahan-SS.jpg" alt="Album 12">
+                <div class="overlay">Noah Kahan</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/OliviaRodrigo-sour.jpg" alt="Album 13">
+                <div class="overlay">Olivia Rodrigo</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/SabrinaC-ShortnSweet.jpg" alt="Album 14">
+                <div class="overlay">Sabrina Carpenter</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/Weekend-HUT.jpg" alt="Album 15">
+                <div class="overlay">Weekend</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/SZA-SOS.jpg" alt="Album 16">
+                <div class="overlay">SZA</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/TS-TTPD.jpg" alt="Album 17">
+                <div class="overlay">Taylor Swift</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/UnrealUnearth.Hozier.jpeg" alt="Album 18">
+                <div class="overlay">Hozier</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/BrunoMars-D&H.jpg" alt="Album 19">
+                <div class="overlay">Bruno Mars</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/Weekend-TH.jpg" alt="Album 20">
+                <div class="overlay">Weekend</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="buttons" id="Albumbtn">
+        <button class="button" onclick="prevAlbum()">Previous</button>
+        <button class="button" onclick="nextAlbum()">Next</button>
+    </div>
+
+    <h1> Hot Hits </h1>
+    <div class="carousel-container">
+        <div class="carousel" id="HotHitscarousel">
+            <div class="carousel-album">
+                <img src="images/AlexWarren-Ordinary.jpg" alt="Song 1">
+                <div class="overlay">Alex Warren - Ordinary</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/BensonBoone-BT.jpg" alt="Song 2">
+                <div class="overlay">Benson Boone -Beautiful Things</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/jimin-muse.jpg" alt="Song 3">
+                <div class="overlay">Jimin - Who</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/LolaYoung-Messy.jpg" alt="Song 4">
+                <div class="overlay">Lola Young - Messy</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/KendrickLamar-NLU.jpg" alt="Song 5">
+                <div class="overlay">Kendrick Lamar - Not Like Us</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/ChappelRoan-PPC.jpg" alt="Song 6">
+                <div class="overlay">Chappel Roan - Pink Pony Club</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/LadyGaGa-Abracadabra.jpg" alt="Song 7">
+                <div class="overlay">Lady Gaga - Abracadabra</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/Chrystal-TD.jpg" alt="Song 8">
+                <div class="overlay">Chrystal - The Days</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/Rose&Bruno-APT.jpg" alt="Song 9">
+                <div class="overlay">Rose & Bruno Mars - APT</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/Doechii-DIR.jpg" alt="Song 10">
+                <div class="overlay">Doechii - Denial Is A River</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/Kendrick&SZA-Luther.jpg" alt="Song 11">
+                <div class="overlay">Kendrick Lamar & SZA - Luther</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/Kendrick&SZA-ATS.jpg" alt="Song 12">
+                <div class="overlay">Kendrick Lamar & SZA - All The Stars</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/tatemcrea-sportscar.jpg" alt="Song 13">
+                <div class="overlay">Tate McRae - Sports Car</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/Lisa&Raye&Doja-BA.jpg" alt="Song 14">
+                <div class="overlay">Lisa & Raye & Doja Cat - Born Again</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/GracieAbrams-TST.jpg" alt="Song 15">
+                <div class="overlay">Gracie Abrams - That's So True</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/TeddySwims-LC.jpg" alt="Song 16">
+                <div class="overlay">Teddy Swims - Lose Control</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/LadyG&Bruno-DWAS.jpg" alt="Song 17">
+                <div class="overlay">Lady Gaga & Bruno Mars - Die With A Smile</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/weekend-timeless.jpg" alt="Song 18">
+                <div class="overlay">Weekend - Timeless</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/charliXCX-guess.webp" alt="Song 19">
+                <div class="overlay">Charli XCX - Guess</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/BillieEilish-HMHAS.jpg" alt="Album 20">
+                <div class="overlay">Billie Eilish - Wildflower</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="buttons" id="HotHitsbtn">
+        <button class="button" onclick="prevHotHits()">Previous</button>
+        <button class="button" onclick="nextHotHits()">Next</button>
+    </div>
+
+    <h1> Throwbacks</h1>
+    <div class="carousel-container">
+        <div class="carousel" id="ThrowBackcarousel">
+            <div class="carousel-album">
+                <img src="images/beatles-album.jpg" alt="Album 1">
+                <div class="overlay">The Beatles</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/cher.webp" alt="Album 2">
+                <div class="overlay">Cher</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/elvis-album.jpg" alt="Album 3">
+                <div class="overlay">Elvis</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/GeorgeM-Faith.jpg" alt="Album 4">
+                <div class="overlay">George Michael</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/LouisA-WAWW.jpg" alt="Album 5">
+                <div class="overlay">Louis Armstrong</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/madona.webp" alt="Album 6">
+                <div class="overlay">Madona</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/Whitneyhouston.jpg" alt="Album 7">
+                <div class="overlay">Whitney Houston</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/SpiceGirls.jpg" alt="Album 8">
+                <div class="overlay">Spice Girls</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/NielDiamond.jpg" alt="Album 9">
+                <div class="overlay">Niel Diamond</div>
+            </div>
+            <div class="carousel-album">
+                <img src="images/AmyWinehouse.webp" alt="Album 10">
+                <div class="overlay">Amy Winehouse</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="buttons" id="ThrowBackbtn">
+        <button class="button" onclick="prevThrowBack()">Previous</button>
+        <button class="button" onclick="nextThrowBack()">Next</button>
+    </div>
+
+
+    <script>
+    // Separate index variables for each carousel
+    let albumIndex = 0;
+    let hotHitsIndex = 0;
+    let throwBackIndex = 0;
+    // Update the carousel for a specific category
+    function updateCarousel(carouselId, index) 
+    {
+        document.getElementById(carouselId).style.transform = `translateX(${-index * 220}px)`;
+    }
+    // Next and Previous buttons for the Album carousel
+    function nextAlbum() 
+    {
+        if (albumIndex < 18) 
+        { 
+            albumIndex++;
+            updateCarousel("Albumcarousel", albumIndex);
+        }
+    }
+    function prevAlbum() 
+    {
+        if (albumIndex > 0) 
+        {
+            albumIndex--;
+            updateCarousel("Albumcarousel", albumIndex);
+        }
+    }
+    // Next and Previous buttons for the Hot Hits carousel
+    function nextHotHits() 
+    {
+        if (hotHitsIndex < 18) 
+        {
+            hotHitsIndex++;
+            updateCarousel("HotHitscarousel", hotHitsIndex);
+        }
+    }
+    function prevHotHits() 
+    {
+        if (hotHitsIndex > 0) 
+        {
+            hotHitsIndex--;
+            updateCarousel("HotHitscarousel", hotHitsIndex);
+        }
+    }
+    // Next and Previous buttons for the Throw Backs carousel
+    function nextThrowBack() 
+    {
+        if (throwBackIndex < 18) 
+        {
+            throwBackIndex++;
+            updateCarousel("ThrowBackcarousel", throwBackIndex);
+        }
+    }
+    function prevThrowBack() 
+    {
+        if (throwBackIndex > 0) 
+        {
+            throwBackIndex--;
+            updateCarousel("ThrowBackcarousel", throwBackIndex);
+        }
+    }
+    </script>
+
+    <div class="footer">
+        <p>&copy; 2025 The Note Nook | All Rights Reserved</p>
+    </div>
+</body>
+</html>
